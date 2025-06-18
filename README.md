@@ -39,6 +39,10 @@
 
 ## 소나큐브 프로젝트 등록
 
+- project root 에 sonar-project.properties 파일 생성
+
+[sonar-project.properties](./sonar-project.properties)
+
 ```sh
     Secret 등록
     - SONAR_TOKNE
@@ -46,3 +50,5 @@
 ```
 
 - ![4](./public/4.png)
+
+## 소나 Lint 적용해서 Local 에서 실행하기

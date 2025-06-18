@@ -18,7 +18,8 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - uses: SonarSource/sonarqube-scan-action@v4
         with:
-          working-directory: apis/typescript-vulnerabilities
+          args: >
+            -Dsonar.projectBaseDir=apis/typescript-vulnerabilities
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
