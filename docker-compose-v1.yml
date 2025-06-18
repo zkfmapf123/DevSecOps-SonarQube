@@ -20,7 +20,7 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
       - sonarqube_temp:/opt/sonarqube/temp
     ports:
-      - "9000:9000"
+      - "80:9000"
     restart: always
   db:
     image: postgres:15
