@@ -133,7 +133,6 @@ on:
 GitHub Actions 탭에서 각 스텝의 로그를 확인하여 문제를 진단할 수 있습니다.
 
 ## 📚 추가 리소스
-
 - [SonarQube GitHub Actions 가이드](https://docs.sonarqube.org/latest/analysis/github-integration/)
 - [GitHub Actions 공식 문서](https://docs.github.com/en/actions)
 - [SonarQube Quality Gate 설정](https://docs.sonarqube.org/latest/user-guide/quality-gates/) 
