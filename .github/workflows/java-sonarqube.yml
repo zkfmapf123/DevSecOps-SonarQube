@@ -2,11 +2,11 @@ name: Java SonarQube SAST Analysis
 
 on:
   push:
-    branches: *
+    branches: [ main, develop, feat/* ]
     paths:
       - 'apis/java-vulnerabilities/**'
   pull_request:
-    branches: *
+    branches: [ main, develop, feat/* ]
     paths:
       - 'apis/java-vulnerabilities/**'
   workflow_dispatch:

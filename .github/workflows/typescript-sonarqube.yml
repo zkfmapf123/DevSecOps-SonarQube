@@ -2,11 +2,11 @@ name: TypeScript SonarQube SAST Analysis
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, feat/* ]
     paths:
       - 'apis/typescript-vulnerabilities/**'
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop, feat/* ]
     paths:
       - 'apis/typescript-vulnerabilities/**'
   workflow_dispatch:
