@@ -3,6 +3,42 @@
 ## 세부 요구사항
 
 - [ ] 특정 폴더 / 파일 포함 or 제외
+- [ ] 모노레포 구성 
+- [x] Matrix (반복적 처리)
+
+```sh
+jobs:
+  sonar-scan:
+    name: Analyze ${{ matrix.name }} Project
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: Java
+            path: apis/java
+            key: apis-java
+          - name: TypeScript
+            path: apis/ts
+            key: apis-ts
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: >
+            -Dsonar.projectKey=${{ matrix.key }}
+            -Dsonar.projectName=APIs - ${{ matrix.name }}
+            -Dsonar.sources=src
+            -Dsonar.projectBaseDir=${{ matrix.path }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+```
+
 
 ## Github Apps 만들기
 

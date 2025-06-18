@@ -22,7 +22,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=apis-ts
-            -Dsonar.projectName=APIS - Typescript
+            -Dsonar.projectName="APIS - Typescript"
             -Dsonar.source=src
             -Dsonar.projectBaseDir=apis/ts
         env:

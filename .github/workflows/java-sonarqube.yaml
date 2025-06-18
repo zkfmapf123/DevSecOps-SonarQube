@@ -22,7 +22,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=apis-java
-            -Dsonar.projectName=APIS - Java
+            -Dsonar.projectName="APIS - Java"
             -Dsonar.source=build
             -Dsonar.projectBaseDir=apis/java
         env:
