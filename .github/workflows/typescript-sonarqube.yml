@@ -20,7 +20,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Full history for SonarQube analysis
+        fetch-depth: 0
     
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -35,118 +35,47 @@ jobs:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
-    
+
     - name: Install dependencies
       run: |
         cd apis/typescript-vulnerabilities
         npm ci
-    
+
     - name: Build TypeScript project
       run: |
         cd apis/typescript-vulnerabilities
         npm run build
-    
-    - name: SonarQube Scan
-      uses: sonarqube-quality-gate-action@master
-      env:
-        HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      with:
-        scannerHome: ${{ github.workspace }}/.sonar/scanner
-        args: >
-          -Dsonar.projectKey=typescript-vulnerabilities
-          -Dsonar.projectName=TypeScript Vulnerabilities Example
-          -Dsonar.projectVersion=1.0.0
-          -Dsonar.sources=apis/typescript-vulnerabilities/src
-          -Dsonar.typescript.tsconfigPath=apis/typescript-vulnerabilities/tsconfig.json
-          -Dsonar.typescript.version=5.1.6
-          -Dsonar.sourceEncoding=UTF-8
-          -Dsonar.qualitygate.wait=true
-          -Dsonar.analysis.mode=publish
-          -Dsonar.pullrequest.key=${{ github.event.number }}
-          -Dsonar.pullrequest.branch=${{ github.head_ref }}
-          -Dsonar.pullrequest.base=${{ github.base_ref }}
-          -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/*.min.js
+
+    - name: Install sonar-scanner
+      run: |
+        npm install -g sonar-scanner
+
+    - name: Run SonarQube scan
+      run: |
+        cd apis/typescript-vulnerabilities
+        sonar-scanner \
+          -Dsonar.projectKey=typescript-vulnerabilities \
+          -Dsonar.projectName="TypeScript Vulnerabilities Example" \
+          -Dsonar.projectVersion=1.0.0 \
+          -Dsonar.sources=src \
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.typescript.tsconfigPath=tsconfig.json \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/*.min.js \
           -Dsonar.inclusions=**/*.ts,**/*.js
-    
-    - name: Comment PR with SonarQube results
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const { data: comments } = await github.rest.issues.listComments({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-          });
-          
-          const sonarComment = comments.find(comment => 
-            comment.body.includes('SonarQube analysis')
-          );
-          
-          if (sonarComment) {
-            await github.rest.issues.updateComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: sonarComment.id,
-              body: `🔍 **SonarQube SAST Analysis Complete**
-              
-              📊 **Analysis Results:**
-              - **Project**: TypeScript Vulnerabilities Example
-              - **Branch**: \`${{ github.head_ref }}\`
-              - **Analysis URL**: ${{ secrets.SONAR_HOST_URL }}/dashboard?id=typescript-vulnerabilities
-              
-              🚨 **Expected Security Issues:**
-              - **Critical**: SQL Injection, Command Injection, Path Traversal
-              - **Major**: XSS, Weak Encryption, Prototype Pollution, NoSQL Injection, Directory Traversal
-              - **Minor**: Hardcoded Password, Weak Hash, Insecure Random, Weak Session Management
-              - **Info**: Log Injection, Sensitive Data Exposure, Information Disclosure, Race Condition
-              
-              📝 **Next Steps:**
-              1. Review security hotspots in SonarQube dashboard
-              2. Address critical and major vulnerabilities
-              3. Update code quality based on findings
-              4. Check for TypeScript-specific security patterns`
-            });
-          } else {
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `🔍 **SonarQube SAST Analysis Complete**
-              
-              📊 **Analysis Results:**
-              - **Project**: TypeScript Vulnerabilities Example
-              - **Branch**: \`${{ github.head_ref }}\`
-              - **Analysis URL**: ${{ secrets.SONAR_HOST_URL }}/dashboard?id=typescript-vulnerabilities
-              
-              🚨 **Expected Security Issues:**
-              - **Critical**: SQL Injection, Command Injection, Path Traversal
-              - **Major**: XSS, Weak Encryption, Prototype Pollution, NoSQL Injection, Directory Traversal
-              - **Minor**: Hardcoded Password, Weak Hash, Insecure Random, Weak Session Management
-              - **Info**: Log Injection, Sensitive Data Exposure, Information Disclosure, Race Condition
-              
-              📝 **Next Steps:**
-              1. Review security hotspots in SonarQube dashboard
-              2. Address critical and major vulnerabilities
-              3. Update code quality based on findings
-              4. Check for TypeScript-specific security patterns`
-            });
-          }
-    
+
     - name: Upload SonarQube report
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: sonarqube-report-typescript
         path: |
-          apis/typescript-vulnerabilities/.sonar/
-          .sonar/
+          apis/typescript-vulnerabilities/.scannerwork/
         retention-days: 30
-    
+
     - name: Run security audit
       run: |
         cd apis/typescript-vulnerabilities
         npm audit --audit-level=moderate
-      continue-on-error: true 
+      continue-on-error: true
