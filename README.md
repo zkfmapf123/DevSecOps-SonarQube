@@ -33,8 +33,16 @@
 - ![2](./public/2.png)
 - ![3](./public/3.png)
 
-
-
 ### SonarQube Github 설정 구성 
 #### Enterpsise -> https://github.company.com/api/v3
 #### Other -> https://api.github.com/
+
+## 소나큐브 프로젝트 등록
+
+```sh
+    Secret 등록
+    - SONAR_TOKNE
+    - SONAR_HOST_URL
+```
+
+- ![4](./public/4.png)
