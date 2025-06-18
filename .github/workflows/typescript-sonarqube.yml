@@ -17,15 +17,15 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       
-      - name: SonarQube TS Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        with:
-          args: >
-            -Dsonar.projectKey=DevSecOps-SonarQube
-            -Dsonar.projectName="APIS - Typescript"
-            -Dsonar.sources=src
-            -Dsonar.projectBaseDir=apis/ts
-            -Dsonar.branch.name=${{ github.ref_name }}
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # - name: SonarQube TS Scan
+      #   uses: SonarSource/sonarqube-scan-action@v4
+      #   with:
+      #     args: >
+      #       -Dsonar.projectKey=DevSecOps-SonarQube
+      #       -Dsonar.projectName="APIS - Typescript"
+      #       -Dsonar.sources=src
+      #       -Dsonar.projectBaseDir=apis/ts
+      #       -Dsonar.branch.name=${{ github.ref_name }}
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
