@@ -95,6 +95,7 @@ jobs:
 
 ## Trouble Shooting
 
+### 권한 문제
 ```sh
 13:37:16.842 ERROR You're not authorized to analyze this project or the project doesn't exist on SonarQube and you're not authorized to create it. Please contact an administrator.
 13:37:17.179 INFO  EXECUTION FAILURE
