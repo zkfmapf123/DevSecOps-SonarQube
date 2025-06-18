@@ -1,4 +1,4 @@
-name: TypeScript SonarQube SAST Analysis
+name: JAVA SonarQube SAST Analysis
 
 on:
   push:
@@ -17,14 +17,14 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       
-      - name: SonarQube TS Scan
+      - name: SonarQube JAVA Scan
         uses: SonarSource/sonarqube-scan-action@v4
         with:
           args: >
-            -Dsonar.projectKey=apis-ts
-            -Dsonar.projectName=APIS - Typescript
-            -Dsonar.source=src
-            -Dsonar.projectBaseDir=apis/ts
+            -Dsonar.projectKey=apis-java
+            -Dsonar.projectName=APIS - Java
+            -Dsonar.source=build
+            -Dsonar.projectBaseDir=apis/java
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

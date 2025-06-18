@@ -1,5 +1,9 @@
 # SonarQube 구축
 
+## 세부 요구사항
+
+- [ ] 특정 폴더 / 파일 포함 or 제외
+
 ## Github Apps 만들기
 
 ### 1. Apps 만들기
