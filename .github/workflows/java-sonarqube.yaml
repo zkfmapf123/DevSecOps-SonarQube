@@ -21,7 +21,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v4
         with:
           args: >
-            -Dsonar.projectKey=apis-java
+            -Dsonar.projectKey=DevSecOps-SonarQube
             -Dsonar.projectName="APIS - Java"
             -Dsonar.source=build
             -Dsonar.projectBaseDir=apis/java
