@@ -40,6 +40,7 @@
    SonarQube > My Account > Security > Generate Tokens
    ```
 
+
 ### **SonarQube 프로젝트 설정**
 각 프로젝트가 SonarQube에 미리 생성되어 있어야 합니다:
 - `java-vulnerabilities`
