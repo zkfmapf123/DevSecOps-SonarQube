@@ -24,8 +24,9 @@ jobs:
             -Dsonar.projectKey=DevSecOps-SonarQube
             -Dsonar.projectName="APIS - Typescript"
             -Dsonar.sources=src
-            -Dsonar.projectBaseDir=apis/ts
+            -Dsonar.projectBaseDir=apis/java
             -Dsonar.branch.name=${{ github.ref_name }}
+            -Dsonar.scm.disabled=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
