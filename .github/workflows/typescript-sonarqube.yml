@@ -1,0 +1,32 @@
+name: TypeScript SonarQube SAST Analysis
+
+on:
+  push:
+    branches: [ main, develop, feat/* ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      
+      - name: SonarQube TS Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: >
+            -Dsonar.projectKey=DevSecOps-SonarQube
+            -Dsonar.projectName="APIS - Typescript"
+            -Dsonar.sources=src
+            -Dsonar.projectBaseDir=apis/ts
+            -Dsonar.branch.name=${{ github.ref_name }}
+            -Dsonar.scm.disabled=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
